@@ -8,13 +8,14 @@
             "mainClass": "com.example.demo.DemoApplication",
             "projectName": "demo",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "postDebugTask": "start-react"
         },
         {
-            "type": "pwa-node",
+            "type": "node",
             "request": "launch",
             "name": "React Start",
-            "cwd": "${workspaceFolder}/time_to_taste", // React 專案資料夾名稱，請依實際路徑調整
+            "cwd": "${workspaceFolder}/time_to_taste",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "start"
@@ -22,7 +23,7 @@
             "console": "integratedTerminal"
         }
     ],
-     "compounds": [
+    "compounds": [
         {
             "name": "前後端一起啟動",
             "configurations": [
