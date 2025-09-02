@@ -9,6 +9,17 @@
             "projectName": "demo",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "React Start",
+            "cwd": "${workspaceFolder}/time_to_taste", // React 專案資料夾名稱，請依實際路徑調整
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "start"
+            ],
+            "console": "integratedTerminal"
         }
     ],
      "compounds": [
