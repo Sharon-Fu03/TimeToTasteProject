@@ -11,5 +11,5 @@ public interface IngredientDao extends JpaRepository<Ingredient, Long> {
    // public List<Ingredient> findBycName(String cName);
     // 如果還是有問題，可以用 @Query 註解
     @Query("SELECT i FROM Ingredient i WHERE i.ingredientName = :ingredientName")
-    List<Ingredient> findByName(@Param("ingredientName") String ingredientName);
+    Ingredient findByingredientName(@Param("ingredientName") String ingredientName);
 }
