@@ -39,7 +39,7 @@ function App() {
 
     try {
       const response = await axios.post('http://localhost:8080/getIngredient', {
-        name: ingredientName,
+        ingredientName: ingredientName,
         gram: gram
       });
 

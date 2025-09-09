@@ -17,14 +17,14 @@ public class Ingredient {
     private String cName;
     
     @Column(name = "energy_kcal")
-    private Float energyKcal;
+    private Double energyKcal;
     
-    private Float protein;
-    private Float fat;
-    private Float carbs;
-    private Float sugar;
-    private Float sodium;
-    private Float water;
+    private Double protein;
+    private Double fat;
+    private Double carbs;
+    private Double sugar;
+    private Double sodium;
+    private Double water;
     
     // 建構子
     public Ingredient() {}
@@ -39,24 +39,24 @@ public class Ingredient {
     public String getCName() { return cName; }
     public void setCName(String cName) { this.cName = cName; }
     
-    public Float getEnergyKcal() { return energyKcal; }
-    public void setEnergyKcal(Float energyKcal) { this.energyKcal = energyKcal; }
+    public Double getEnergyKcal() { return energyKcal; }
+    public void setEnergyKcal(Double energyKcal) { this.energyKcal = energyKcal; }
     
-    public Float getProtein() { return protein; }
-    public void setProtein(Float protein) { this.protein = protein; }
+    public Double getProtein() { return protein; }
+    public void setProtein(Double protein) { this.protein = protein; }
     
-    public Float getFat() { return fat; }
-    public void setFat(Float fat) { this.fat = fat; }
+    public Double getFat() { return fat; }
+    public void setFat(Double fat) { this.fat = fat; }
     
-    public Float getCarbs() { return carbs; }
-    public void setCarbs(Float carbs) { this.carbs = carbs; }
+    public Double getCarbs() { return carbs; }
+    public void setCarbs(Double carbs) { this.carbs = carbs; }
     
-    public Float getSugar() { return sugar; }
-    public void setSugar(Float sugar) { this.sugar = sugar; }
+    public Double getSugar() { return sugar; }
+    public void setSugar(Double sugar) { this.sugar = sugar; }
     
-    public Float getSodium() { return sodium; }
-    public void setSodium(Float sodium) { this.sodium = sodium; }
+    public Double getSodium() { return sodium; }
+    public void setSodium(Double sodium) { this.sodium = sodium; }
     
-    public Float getWater() { return water; }
-    public void setWater(Float water) { this.water = water; }
+    public Double getWater() { return water; }
+    public void setWater(Double water) { this.water = water; }
 }

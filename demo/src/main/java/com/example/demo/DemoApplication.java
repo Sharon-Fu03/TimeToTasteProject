@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 import com.example.demo.dao.IngredientDao;
 import com.example.demo.entity.Ingredient;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @RestController
@@ -26,15 +28,32 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@PostMapping("/getIngredient")
-    public Ingredient hello(Ingredient Ingredient) {
-		System.out.println("Ingredient: " + Ingredient.getIngredientName());
+@PostMapping("/getIngredient")
+public Ingredient getIngredient(@RequestBody Map<String, Object> payload) {
+    String name = (String) payload.get("ingredientName");
+    Double gram = Double.parseDouble(payload.get("gram").toString());
 
-		Ingredient ingredients = ingredientDao.findByingredientName("egg");
-		
-		return ingredients;
+    System.out.println("食材名稱: " + name);
+    System.out.println("重量: " + gram);
 
-    }
+    Ingredient dbIngredient = ingredientDao.findByingredientName(name);
+
+    // 計算比例
+    Double factor = gram / 100.0f;
+
+    Ingredient result = new Ingredient();
+    result.setIngredientName(name);
+	result.setCName(dbIngredient.getCName());
+    result.setEnergyKcal(dbIngredient.getEnergyKcal() * factor);
+    result.setProtein(dbIngredient.getProtein() * factor);
+    result.setFat(dbIngredient.getFat() * factor);
+    result.setCarbs(dbIngredient.getCarbs() * factor);
+    result.setSugar(dbIngredient.getSugar() * factor);
+    result.setSodium(dbIngredient.getSodium() * factor);
+    result.setWater(dbIngredient.getWater() * factor);
+
+    return result;
+}
 	// @GetMapping("/api/ingredients/search")
 	// public List<String> searchIngredients(@RequestParam String keyword) {
     // return ingredientRepository.findByIngredientNameContainingIgnoreCase(keyword)
