@@ -18,7 +18,8 @@
             "cwd": "${workspaceFolder}/time_to_taste",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
-                "start"
+                "run",
+                "dev"
             ],
             "console": "integratedTerminal"
         }

@@ -18,7 +18,7 @@ import java.util.Map;
 
 @SpringBootApplication
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")  // 允許 React 前端呼叫
+@CrossOrigin(origins = "http://localhost:3000")  // 允許 React 前端呼叫
 public class DemoApplication {
 	private final IngredientDao ingredientDao;
 

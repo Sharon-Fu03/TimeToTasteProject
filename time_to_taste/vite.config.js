@@ -5,6 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
+  port: 8080,
+  strictPort: true,
     proxy: {
       // proxy API requests to Spring Boot backend
       '/getIngredient': {
