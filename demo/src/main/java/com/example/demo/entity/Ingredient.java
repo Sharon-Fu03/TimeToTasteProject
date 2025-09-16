@@ -1,8 +1,8 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.GenerationType;
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 @Entity
 @Table(name = "ingredient")
 public class Ingredient {
@@ -42,21 +42,41 @@ public class Ingredient {
     public Double getEnergyKcal() { return energyKcal; }
     public void setEnergyKcal(Double energyKcal) { this.energyKcal = energyKcal; }
     
-    public Double getProtein() { return protein; }
+    public Double getProtein() { 
+        if (protein == null) return null;
+        return new BigDecimal(protein).setScale(4, RoundingMode.HALF_UP).doubleValue();
+    }
     public void setProtein(Double protein) { this.protein = protein; }
     
-    public Double getFat() { return fat; }
+    public Double getFat() { 
+        if (fat == null) return null;
+        return new BigDecimal(fat).setScale(4, RoundingMode.HALF_UP).doubleValue();
+    }
     public void setFat(Double fat) { this.fat = fat; }
     
-    public Double getCarbs() { return carbs; }
+    public Double getCarbs() { 
+        if (carbs == null) return null;
+        return new BigDecimal(carbs).setScale(4, RoundingMode.HALF_UP).doubleValue();
+    }
     public void setCarbs(Double carbs) { this.carbs = carbs; }
     
-    public Double getSugar() { return sugar; }
-    public void setSugar(Double sugar) { this.sugar = sugar; }
+    public Double getSugar() {
+        if (sugar == null) return null;
+        return new BigDecimal(sugar).setScale(4, RoundingMode.HALF_UP).doubleValue();
+    }
+    public void setSugar(Double sugar) {
+        this.sugar = sugar;
+    }
     
-    public Double getSodium() { return sodium; }
+    public Double getSodium() { 
+        if (sodium == null) return null;
+        return new BigDecimal(sodium).setScale(4, RoundingMode.HALF_UP).doubleValue();
+    }
     public void setSodium(Double sodium) { this.sodium = sodium; }
     
-    public Double getWater() { return water; }
+    public Double getWater() { 
+        if (water == null) return null;
+        return new BigDecimal(water).setScale(4, RoundingMode.HALF_UP).doubleValue();
+    }
     public void setWater(Double water) { this.water = water; }
 }
