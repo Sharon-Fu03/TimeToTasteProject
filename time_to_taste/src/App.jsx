@@ -2,7 +2,8 @@ import './App.css';
 import axios from 'axios';
 import { useState } from 'react';
 import { PieChart } from '@mui/x-charts';
-
+import Navbar from './Navbar';
+import './index.css';
 function App() {
   const [ingredientName, setIngredientName] = useState('');
   const [gram, setGram] = useState(200);
@@ -56,7 +57,12 @@ function App() {
   };
 
 return (
+    
     <div className="App" style={{ padding: '20px' }}>
+         <div className="p-10 bg-green-200 text-center text-2xl font-bold">
+      Tailwind v4 OK 🚀
+    </div>
+        <Navbar />
         <h2>輸入食材與重量</h2>
 
         <div style={{ marginBottom: '10px' }}>
