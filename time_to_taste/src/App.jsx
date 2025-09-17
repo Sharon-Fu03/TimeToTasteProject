@@ -58,10 +58,7 @@ function App() {
 
 return (
     
-    <div className="App" style={{ padding: '20px' }}>
-         <div className="p-10 bg-green-200 text-center text-2xl font-bold">
-      Tailwind v4 OK 🚀
-    </div>
+    <div className="App" style={{ padding: '20px' }}>    
         <Navbar />
         <h2>輸入食材與重量</h2>
 
