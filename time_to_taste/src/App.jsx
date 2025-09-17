@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { PieChart } from '@mui/x-charts';
 import Navbar from './Navbar';
 import './index.css';
+import Footer from './Footer';
 function App() {
   const [ingredientName, setIngredientName] = useState('');
   const [gram, setGram] = useState(200);
@@ -58,7 +59,7 @@ function App() {
 
 return (
     
-    <div className="App" style={{ padding: '20px' }}>    
+    <div className="App" >    
         <Navbar />
         <h2>輸入食材與重量</h2>
 
@@ -175,6 +176,7 @@ return (
                     />
             </div>
         )}
+        <Footer />
     </div>
 );
 }
