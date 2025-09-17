@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react"; // 用於漢堡選單圖示
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,19 +9,18 @@ export default function Navbar() {
     <nav className="w-full bg-white shadow-md">
       <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
-        <a href="/" className="text-2xl font-bold text-green-600">
+        <Link to="/" className="text-2xl font-bold text-green-600">
+          <span className="mr-2 text-green-500">🍴</span>
           知食光
-        </a>
+        </Link>
 
         {/* 桌面版選單 */}
-      <div className="hidden md:flex space-x-6 text-gray-700 font-medium">
-          <a href="/" className="hover:text-green-600">首頁</a>
-          <a href="/recipes" className="hover:text-green-600">食譜</a>
-          <a href="/foods" className="hover:text-green-600">食材資料庫</a>
-          <a href="/about" className="hover:text-green-600">關於</a>
+        <div className="hidden md:flex space-x-6 text-gray-700 font-medium">
+          <Link to="/" className="hover:text-green-600">首頁</Link>
+          <Link to="/app" className="hover:text-green-600">食譜</Link>
+          <Link to="/app" className="hover:text-green-600">食材資料庫</Link>
+          <Link to="/app" className="hover:text-green-600">關於</Link>
         </div>
-
-        {/* 手機版按鈕 */}
         <button
           className="md:hidden p-2 text-gray-700"
           onClick={() => setIsOpen(!isOpen)}
@@ -32,10 +32,10 @@ export default function Navbar() {
       {/* 手機版選單 */}
       {isOpen && (
         <div className="md:hidden bg-white shadow-md px-4 py-3 space-y-3">
-          <a href="/" className="block hover:text-green-600">首頁</a>
-          <a href="/recipes" className="block hover:text-green-600">食譜</a>
-          <a href="/foods" className="block hover:text-green-600">食材資料庫</a>
-          <a href="/about" className="block hover:text-green-600">關於</a>
+          <Link to="/" className="block hover:text-green-600">首頁</Link>
+          <Link to="/app" className="block hover:text-green-600">食譜</Link>
+          <Link to="/app" className="block hover:text-green-600">食材資料庫</Link>
+          <Link to="/app" className="block hover:text-green-600">關於</Link>
         </div>
       )}
     </nav>
