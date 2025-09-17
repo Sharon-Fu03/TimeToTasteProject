@@ -1,5 +1,5 @@
 import { useState } from "react";
-//import { Menu, X } from "lucide-react"; // 用於漢堡選單圖示
+import { Menu, X } from "lucide-react"; // 用於漢堡選單圖示
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +13,7 @@ export default function Navbar() {
         </a>
 
         {/* 桌面版選單 */}
-        <div className="hidden md:flex space-x-6 text-gray-700 font-medium">
+      <div className="hidden md:flex space-x-6 text-gray-700 font-medium">
           <a href="/" className="hover:text-green-600">首頁</a>
           <a href="/recipes" className="hover:text-green-600">食譜</a>
           <a href="/foods" className="hover:text-green-600">食材資料庫</a>
@@ -21,12 +21,12 @@ export default function Navbar() {
         </div>
 
         {/* 手機版按鈕 */}
-        {/* <button
+        <button
           className="md:hidden p-2 text-gray-700"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button> */}
+        </button>
       </div>
 
       {/* 手機版選單 */}
