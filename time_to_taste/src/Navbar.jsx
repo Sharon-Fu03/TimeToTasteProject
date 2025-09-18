@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react"; // 用於漢堡選單圖示
 import { Link } from "react-router-dom";
-
+import './index.css';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
