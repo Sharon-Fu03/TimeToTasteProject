@@ -1,15 +1,17 @@
 import './App.css';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PieChart } from '@mui/x-charts';
 import Navbar from './Navbar';
 import './index.css';
 import Footer from './Footer';
+
 function App() {
   const [ingredientName, setIngredientName] = useState('');
   const [gram, setGram] = useState(200);
-  const [items, setItems] = useState([]); // 存放所有新增的食材
+  const [items, setItems] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
+  const [suggestions, setSuggestions] = useState([]); // 搜尋候選結果
 
 
   const totals = items.reduce(
@@ -23,16 +25,31 @@ function App() {
       acc.water += item.water || 0;
       return acc;
     },
-    {
-      energyKcal: 0,
-      protein: 0,
-      fat: 0,
-      carbs: 0,
-      sugar: 0,
-      sodium: 0,
-      water: 0,
-    }
+    { energyKcal: 0, protein: 0, fat: 0, carbs: 0, sugar: 0, sodium: 0, water: 0 }
   );
+
+  // 即時搜尋
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (ingredientName.length < 1) {
+        setSuggestions([]);
+        return;
+      }
+      try {
+        const res = await axios.get('/api/searchIngredients', {
+          params: { keyword: ingredientName },
+        });
+        console.log('搜尋結果:', res.data);
+        setSuggestions(res.data);
+      } catch (err) {
+        console.error('搜尋失敗:', err);
+      }
+    };
+
+    const timer = setTimeout(fetchSuggestions, 300); // debounce
+    return () => clearTimeout(timer);
+  }, [ingredientName]);
+
   // 按下新增食材
   const handleAdd = async () => {
     if (!ingredientName) {
@@ -41,50 +58,91 @@ function App() {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/getIngredient', {
-        ingredientName: ingredientName,
-        gram: gram
+      const response = await axios.post('/getIngredient', {
+        ingredientName,
+        gram,
       });
 
-      // 把新的食材加到清單
       setItems([...items, { ...response.data, gram }]);
       setIngredientName('');
       setGram(200);
       setErrorMsg('');
+      setSuggestions([]);
     } catch (error) {
       console.error('API 呼叫失敗:', error);
       setErrorMsg('連接後端失敗');
     }
   };
 
-return (
-    
-    <div className="App" >    
-        <Navbar />
-        <h2>輸入食材與重量</h2>
+  return (
+    <div className="App">
+      <Navbar />
+      <h2 className="text-xl font-bold my-4">輸入食材與重量</h2>
 
-        <div style={{ marginBottom: '10px' }}>
-            <label>食材名稱：</label>
-            <input
-                type="text"
-                value={ingredientName}
-                onChange={(e) => setIngredientName(e.target.value)}
-                placeholder="例如：chicken breast"
-            />
-        </div>
 
-        <div style={{ marginBottom: '10px' }}>
-            <label>重量 (克)：</label>
-            <input
+      {/* 食材名稱與重量輸入區塊 */}
+      <div className="mb-3 flex flex-col items-center justify-center" >
+        <div style={{ maxWidth: '300px', width: '100%' }}>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center">
+              <label className="block mb-1 mr-2" style={{ minWidth: '70px' }}>食材：</label>
+              <div style={{ position: 'relative', flex: 1 }}>
+                <input
+                  type="text"
+                  value={ingredientName}
+                  onChange={(e) => setIngredientName(e.target.value)}
+                  placeholder="例如：chicken breast"
+                  className="border rounded p-1 w-full"
+                />
+                {suggestions.length > 0 && (
+                  <ul
+                    className="absolute left-0 mt-1 border bg-white shadow-lg z-10"
+                    style={{
+                      top: '100%',
+                      left: 0,
+                      width: '100%',
+                      maxHeight: '200px',
+                      overflowY: 'auto',
+                      boxSizing: 'border-box',
+                    }}
+                  >
+                    {suggestions.map((s, idx) => (
+                      <li
+                        key={idx}
+                        className="p-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => {
+                          setIngredientName(s.cName || s.ingredientName);
+                          setSuggestions([]);
+                        }}
+                      >
+                        {s.cName} ({s.ingredientName})
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center mt-2">
+              <label className="block mb-1 mr-2" style={{ minWidth: '70px' }}>重量 (克)：</label>
+              <input
                 type="number"
                 value={gram}
                 onChange={(e) => setGram(Number(e.target.value))}
-            />
+                className="border rounded p-1 w-full"
+              />
+            </div>
+          </div>
         </div>
+      </div>
 
-        <button  type="button" onClick={handleAdd} className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-            新增食材
-        </button>
+      {/* 新增按鈕 */}
+      <button
+        type="button"
+        onClick={handleAdd}
+        className="py-2.5 px-5 mb-4 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700"
+      >
+        新增食材
+      </button>
 
         {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
 
