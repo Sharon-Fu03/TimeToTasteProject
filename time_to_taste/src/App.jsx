@@ -59,7 +59,7 @@ function App() {
 
     try {
       const response = await axios.post('/getIngredient', {
-        ingredientName,
+          cname: ingredientName,
         gram,
       });
 
@@ -111,7 +111,7 @@ function App() {
                         key={idx}
                         className="p-2 hover:bg-gray-100 cursor-pointer"
                         onClick={() => {
-                          setIngredientName(s.cName || s.ingredientName);
+                          setIngredientName(s.cname || s.ingredientName);
                           setSuggestions([]);
                         }}
                       >

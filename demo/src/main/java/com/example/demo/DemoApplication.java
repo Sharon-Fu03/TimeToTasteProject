@@ -50,8 +50,8 @@ public ResponseEntity<Ingredient> getIngredient(@RequestBody Map<String, Object>
     Double factor = gram / 100.0f;
 
     Ingredient result = new Ingredient();
-    result.setIngredientName(name);
-    result.setCName(dbIngredient.getCName());
+    result.setCName(name);
+    result.setIngredientName(dbIngredient.getIngredientName());
     result.setEnergyKcal((dbIngredient.getEnergyKcal() != null ? dbIngredient.getEnergyKcal() : 0.0) * factor);
     result.setProtein(dbIngredient.getProtein() * factor);
     result.setFat(dbIngredient.getFat() * factor);
