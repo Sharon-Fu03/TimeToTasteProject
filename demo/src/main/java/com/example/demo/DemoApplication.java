@@ -15,6 +15,7 @@ import com.example.demo.dao.IngredientDao;
 import com.example.demo.entity.Ingredient;
 import java.util.List;
 import java.util.Map;
+import java.util.Collections;
 
 @SpringBootApplication
 @RestController
@@ -60,13 +61,13 @@ public ResponseEntity<Ingredient> getIngredient(@RequestBody Map<String, Object>
     result.setWater(dbIngredient.getWater() * factor);
     return ResponseEntity.ok(result);
 }
-	// @GetMapping("/api/ingredients/search")
-	// public List<String> searchIngredients(@RequestParam String keyword) {
-    // return ingredientRepository.findByIngredientNameContainingIgnoreCase(keyword)
-    //         .stream()
-    //         .map(Ingredient::getIngredientName)
-    //         .toList();
-	// }
-
+    @GetMapping("/api/searchIngredients")
+    public List<Ingredient> searchFoodse(@RequestParam("keyword") String keyword) {
+        System.out.println("搜尋關鍵字: " + keyword);
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        return ingredientDao.searchByKeyword(keyword);
+    }
 
 }
