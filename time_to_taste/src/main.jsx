@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App.jsx';
 import reportWebVitals from './reportWebVitals';
+import LoginRegister from './LoginRegister';
 import Home from './Home.jsx';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,6 +14,7 @@ root.render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/app" element={<App />} />
+         <Route path="/login" element={<LoginRegister />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

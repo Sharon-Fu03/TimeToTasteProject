@@ -1,130 +1,69 @@
-import React, { useState } from 'react';
-// Google OAuth
-import { GoogleLogin } from '@react-oauth/google';
-import Navbar from './Navbar';
+import React from 'react';
+import './Login.css'; // 假設您有一個 Login.css 檔案來存放樣式
 
-function LoginRegister() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError('');
-    if (!email || !password) {
-      setError('請輸入帳號與密碼');
-      return;
-    }
-    // TODO: 串接 /login 或 /register API
-    alert(`${isLogin ? '登入' : '註冊'}成功 (僅前端示範)`);
-  };
-
-  const handleGoogleLogin = (credentialResponse) => {
-    // TODO: 串接後端 Google OAuth API
-    alert('Google 登入成功: ' + credentialResponse.credential);
-  };
-
+const LoginPage = () => {
   return (
-    <div>
-      <Navbar />
+    <div className="login-page-container">
+      {/* 左側宣傳區塊 */}
+      <div className="travel-info-section">
+        <div className="travel-logo">知時光</div>
+        <p className="travel-quote">
+          Travel is the only purchase that enriches you in ways beyond material wealth
+        </p>
+        <img 
+          src="path/to/your/image.jpg" // 請替換成您圖片的路徑
+          alt="A woman standing on a mountain top" 
+          className="travel-image" 
+        />
+      </div>
 
-      <div className="_02-travel-login-page flex flex-col items-center justify-center min-h-screen bg-gray-50">
-        {/* 背景圖或裝飾 */}
-        <img className="vector" src="vector0.svg" />
-        <img className="group-688" src="group-6880.svg" />
-  <img className="rectangle-26 absolute left-0 top-1/2 -translate-y-1/2" src="rectangle-260.png" style={{maxHeight: '80vh'}} />
-
-        {/* 文字標題 */}
-        <div className="travelista-tours text-3xl font-bold mt-4">Travelista Tours</div>
-        <div className="travel-is-the-only-purchase-that-enriches-you-in-ways-beyond-material-wealth text-center mt-2 mb-8">
-          Travel is the only purchase that enriches you in ways
-          <br />
-          beyond material wealth
+      {/* 右側登入表單區塊 */}
+      <div className="login-form-section">
+        <div className="login-header">
+          <span className="plane-icon"></span>
         </div>
+        
+        <h2>Welcome</h2>
+        <p className="login-subtext">Login with Email</p>
 
-        {/* 登入表單 */}
-        <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-          <h2 className="text-2xl font-bold mb-6 text-center">{isLogin ? 'Login' : 'Register'}</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="group-90">
-              <div className="group-88">
-                <div className="rectangle-24"></div>
-                <input
-                  type="email"
-                  placeholder="Email Id"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="border rounded p-2 w-full"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="group-92">
-              <div className="group-882">
-                <div className="rectangle-242"></div>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="border rounded p-2 w-full"
-                  required
-                />
-              </div>
-            </div>
-
-            {error && <div className="text-red-500 text-sm">{error}</div>}
-
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700"
-            >
-              {isLogin ? 'Login' : 'Register'}
-            </button>
-          </form>
-
-          <div className="my-4 text-center">
-            {/* <button className="text-blue-600 underline" onClick={() => setIsLogin(!isLogin)}>
-              {isLogin ? '沒有帳號？註冊' : '已有帳號？登入'}
-            </button> */}
+        <form className="login-form">
+          <div className="input-group">
+            <label htmlFor="email">Email id</label>
+            <input type="email" id="email" placeholder="thiouix@gmail.com" />
+           
           </div>
 
-          <div className="my-4 text-center group-56">
-            <div className="group-3 flex items-center justify-center">
-              <img className="subtract mr-2" src="subtract0.svg" />
-              <div className="or">OR</div>
-              <img className="subtract ml-2" src="subtract0.svg" />
-            </div>
-
-            {/* Google 登入 */}
-            <div className="group-682 mt-4 flex justify-center">
-              {/* <GoogleLogin
-                onSuccess={handleGoogleLogin}
-                onError={() => setError('Google 登入失敗')}
-              /> */}
-            </div>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" placeholder="••••••••••••" />
+            
           </div>
+          
+          <a href="#" className="forgot-password">忘記密碼?</a>
+
+          <button type="submit" className="login-button">LOGIN</button>
+        </form>
+
+        <div className="or-divider">
+          <span>OR</span>
         </div>
 
-        {/* Footer / 註冊連結 */}
-        <div className="group-685 mt-4 text-center">
-          <span>
-            <span className="don-t-have-account-register-now-span">
-              Don’t have account?
-            </span>{' '}
-            <span
-              className="don-t-have-account-register-now-span2 text-blue-600 cursor-pointer"
-              onClick={() => setIsLogin(false)}
-            >
-              Register Now
-            </span>
-          </span>
+        <div className="social-login-buttons">
+          <button className="social-button google">G</button>
+          <button className="social-button facebook">f</button>
+          <button className="social-button apple"></button>
+        </div>
+
+        <div className="register-link">
+          Don't have account? <a href="#">Register Now</a>
+        </div>
+        
+        <div className="city-illustration">
+          {/* 城市剪影圖片或 SVG */}
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default LoginRegister;
+export default LoginPage;
