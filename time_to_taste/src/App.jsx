@@ -115,7 +115,7 @@ function App() {
                           setSuggestions([]);
                         }}
                       >
-                        {s.cName} ({s.ingredientName})
+                        {s.cname}
                       </li>
                     ))}
                   </ul>

@@ -33,7 +33,7 @@ public class DemoApplication {
 
 @PostMapping("/getIngredient")
 public ResponseEntity<Ingredient> getIngredient(@RequestBody Map<String, Object> payload) {
-    String name = (String) payload.get("ingredientName");
+    String name = (String) payload.get("cname");
     Double gram = Double.parseDouble(payload.get("gram").toString());
 
     System.out.println("食材名稱: " + name);
