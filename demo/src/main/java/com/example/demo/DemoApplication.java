@@ -1,5 +1,6 @@
 package com.example.demo;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,28 +17,35 @@ import com.example.demo.entity.Ingredient;
 import java.util.List;
 import java.util.Map;
 import java.util.Collections;
-
+import java.net.InetAddress;
 @SpringBootApplication
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")  // 允許 React 前端呼叫
 public class DemoApplication {
-	private final IngredientDao ingredientDao;
+
+    private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
+    private final IngredientDao ingredientDao;
 
 	public DemoApplication(IngredientDao ingredientDao) {
 		this.ingredientDao = ingredientDao;
 	}
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+
+        try {
+            InetAddress ip = InetAddress.getLocalHost();
+            logger.info("\nApplication started successfully."+"\nLocal IP Address: " + ip.getHostAddress());
+        } catch (java.net.UnknownHostException e) {
+            logger.error("Unable to get local host address", e);
+        }
+    }
 
 @PostMapping("/getIngredient")
 public ResponseEntity<Ingredient> getIngredient(@RequestBody Map<String, Object> payload) {
+
     String name = (String) payload.get("cname");
     Double gram = Double.parseDouble(payload.get("gram").toString());
-
-    System.out.println("食材名稱: " + name);
-    System.out.println("重量: " + gram);
 
     Ingredient dbIngredient = ingredientDao.findByingredientName(name);
 
@@ -63,7 +71,7 @@ public ResponseEntity<Ingredient> getIngredient(@RequestBody Map<String, Object>
 }
     @GetMapping("/api/searchIngredients")
     public List<Ingredient> searchFoodse(@RequestParam("keyword") String keyword) {
-        System.out.println("搜尋關鍵字: " + keyword);
+
         if (keyword == null || keyword.trim().isEmpty()) {
             return Collections.emptyList();
         }
