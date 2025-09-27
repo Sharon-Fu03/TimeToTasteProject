@@ -17,9 +17,10 @@ export default function Navbar() {
         {/* 桌面版選單 */}
         <div className="hidden md:flex space-x-6 text-gray-700 font-medium">
           <Link to="/" className="hover:text-green-600">首頁</Link>
-          <Link to="/app" className="hover:text-green-600">食譜</Link>
+          <Link to="/recipe" className="hover:text-green-600">食譜</Link>
           <Link to="/app" className="hover:text-green-600">食材資料庫</Link>
           <Link to="/login" className="hover:text-green-600">帳號</Link>
+
         </div>
         <button
           className="md:hidden p-2 text-gray-700"
