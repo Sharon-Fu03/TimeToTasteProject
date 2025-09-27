@@ -84,8 +84,13 @@ function Recipe() {
     try {
       console.log('食譜資料:', recipeData);
       // 這裡可以加入API調用來保存食譜
-      // const response = await axios.post('/api/recipes', recipeData);
-      alert('食譜新增成功！');
+      const response = await axios.post('/api/recipe/saveRecipe', recipeData);
+      if (response.status === 200) {
+        alert('食譜新增成功！');
+      }
+      else {
+        console.error('食譜保存失敗:', response);
+      }
       
       // 重置表單
       resetForm();
