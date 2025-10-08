@@ -73,7 +73,7 @@ function Recipe() {
     }
 
     const recipeData = {
-      name: recipeName,
+      title: recipeName,
       description: description,
       cookingTime: cookingTime,
       servings: servings,
@@ -83,7 +83,7 @@ function Recipe() {
 
     try {
       console.log('食譜資料:', recipeData);
-      // 這裡可以加入API調用來保存食譜
+      // 這裡可以加入API調用來保存食譜 
       const response = await axios.post('/api/recipe/saveRecipe', recipeData);
       if (response.status === 200) {
         alert('食譜新增成功！');
@@ -120,9 +120,9 @@ function Recipe() {
           
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* 食譜基本資訊 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
+              <div className="">
+                <label className="block text-sm  font-medium text-gray-700 mb-2">
                   食譜名稱 *
                 </label>
                 <input
@@ -135,15 +135,15 @@ function Recipe() {
                 />
               </div>
               
-              <div>
+              <div  className = "md:grid-cols-1">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  烹飪時間
+                  烹飪時間(分)
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   value={cookingTime}
                   onChange={(e) => setCookingTime(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className=" py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="例如：30分鐘"
                 />
               </div>
@@ -153,10 +153,10 @@ function Recipe() {
                   份數
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   value={servings}
                   onChange={(e) => setServings(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="例如：4人份"
                 />
               </div>

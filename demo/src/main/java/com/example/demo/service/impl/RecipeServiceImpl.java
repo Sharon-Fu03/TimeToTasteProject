@@ -1,33 +1,30 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.entity.Recipe;
 import com.example.demo.service.RecipeService;
 import com.example.demo.dao.RecipeDao;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class RecipeServiceImpl implements RecipeService {
-    
+
     private final RecipeDao recipeDao;
-    
-    @Autowired
+
     public RecipeServiceImpl(RecipeDao recipeDao) {
         this.recipeDao = recipeDao;
     }
-    
+
+
     @Override
     public Recipe saveRecipe(Recipe recipe) {
-        try {
-            //validateRecipe(recipe);
-            return recipeDao.save(recipe);
-        } catch (Exception e) {
-            throw new RuntimeException("保存食譜失敗: " + e.getMessage(), e);
+        if (recipe == null) {
+            throw new IllegalArgumentException("recipe cannot be null");
         }
+        if (recipe.getTitle() == null || recipe.getTitle().trim().isEmpty()) {
+            throw new IllegalArgumentException("recipe title is required");
+        }
+        return recipeDao.save(recipe);
     }
-    
 }

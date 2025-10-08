@@ -7,43 +7,53 @@ import java.time.LocalDateTime;
 @Table(name = "recipe")
 public class Recipe {
 
-   
-   
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recipe_id", nullable = false)
+    private Integer id;
 
-    @Column(name = "recipe_body", columnDefinition = "TEXT")
-    private String body;
+    @Column(name = "recipe_title")
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "users_id", nullable = false)
-    private User user;
+    @Column(name = "recipe_desc", columnDefinition = "TEXT")
+    private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "recipe_status", columnDefinition = "ENUM('draft','published','archived') DEFAULT 'draft'")
-    private Status status = Status.draft;
+    @Column(name = "recipe_steps", columnDefinition = "TEXT")
+    private String steps;
 
-    @Column(name = "recipe_created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "recipe_servings")
+    private Integer servings;
+
+    @Column(name = "recipe_time")
+    private Integer time;
+
+    @Column(name = "users_id", nullable = false)
+    private Integer usersId;
+
+    @Column(name = "recipe_status")
+    private String status;
+
+    @Column(name = "recipe_created_at")
     private LocalDateTime createdAt;
 
-    private String title;
-    
-    public enum Status {
-        draft, published, archived
+    // lifecycle callback to set createdAt when persisting
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
     }
 
-    // Getters and Setters
+    // Getters and setters
 
-    @Id
-    @Column(name = "recipe_id", length = 36)
-    private String id; // UUID
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    
     public String getTitle() {
         return title;
     }
@@ -52,27 +62,51 @@ public class Recipe {
         this.title = title;
     }
 
-    public String getBody() {
-        return body;
+    public String getDescription() {
+        return description;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public User getUser() {
-        return user;
+    public String getSteps() {
+        return steps;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSteps(String steps) {
+        this.steps = steps;
     }
 
-    public Status getStatus() {
+    public Integer getServings() {
+        return servings;
+    }
+
+    public void setServings(Integer servings) {
+        this.servings = servings;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
+    }
+
+    public Integer getUsersId() {
+        return usersId;
+    }
+
+    public void setUsersId(Integer usersId) {
+        this.usersId = usersId;
+    }
+
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
