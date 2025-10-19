@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App.jsx';
 import reportWebVitals from './reportWebVitals';
-import LoginRegister from './LoginRegister';
 import Home from './Home.jsx';
 import Recipe from './Recipe.jsx';
 
@@ -16,7 +15,6 @@ root.render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/app" element={<App />} />
-        <Route path="/login" element={<LoginRegister />} />
         <Route path="/recipe" element={<Recipe />} />
       </Routes>
     </BrowserRouter>

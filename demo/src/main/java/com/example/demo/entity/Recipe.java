@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "recipe")
@@ -35,6 +37,9 @@ public class Recipe {
 
     @Column(name = "recipe_created_at")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeIngredient> ingredients = new ArrayList<>();
 
     // lifecycle callback to set createdAt when persisting
     @PrePersist
@@ -116,5 +121,24 @@ public class Recipe {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<RecipeIngredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<RecipeIngredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    // Helper method to maintain bidirectional relationship
+    public void addIngredient(RecipeIngredient ingredient) {
+        ingredients.add(ingredient);
+        ingredient.setRecipe(this);
+    }
+
+    public void removeIngredient(RecipeIngredient ingredient) {
+        ingredients.remove(ingredient);
+        ingredient.setRecipe(null);
     }
 }

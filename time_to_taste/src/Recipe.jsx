@@ -78,7 +78,8 @@ function Recipe() {
       cookingTime: cookingTime,
       servings: servings,
       ingredients: ingredients.filter(ing => ing.name.trim()),
-      steps: steps.filter(step => step.trim())
+      steps: steps.filter(step => step.trim()),
+      usersId: 1  // TODO: 實作登入後，從 session/localStorage 取得真實的使用者 ID
     };
 
     try {
@@ -111,6 +112,7 @@ function Recipe() {
   };
 
   return (
+    <div>
     <div className="App min-h-screen bg-gray-50">
       <Navbar />
       
@@ -282,7 +284,9 @@ function Recipe() {
         </div>
       </div>
       
-      <Footer />
+      
+    </div>
+    <Footer />
     </div>
   );
 }
