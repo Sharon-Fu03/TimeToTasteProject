@@ -127,7 +127,14 @@ function App() {
               <input
                 type="number"
                 value={gram}
-                onChange={(e) => setGram(Number(e.target.value))}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // 直接設定為數字，空字串會變成 0
+                  setGram(value === '' ? 0 : Number(value));
+                }}
+                min="0"
+                step="1"
+                placeholder="200"
                 className="border rounded p-1 w-full"
               />
             </div>
