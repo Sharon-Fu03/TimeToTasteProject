@@ -86,15 +86,17 @@ function Recipe() {
       console.log('食譜資料:', recipeData);
       // 這裡可以加入API調用來保存食譜 
       const response = await axios.post('/api/recipe/saveRecipe', recipeData);
-      if (response.status === 200) {
-        alert('食譜新增成功！');
-      }
-      else {
-        console.error('食譜保存失敗:', response);
-      }
       
-      // 重置表單
-      resetForm();
+      // 檢查成功狀態碼：200 OK 或 201 Created
+      if (response.status === 200 || response.status === 201) {
+        alert('食譜新增成功！');
+        console.log('已儲存的食譜:', response.data);
+        // 重置表單
+        resetForm();
+      } else {
+        console.error('食譜保存失敗:', response);
+        alert('食譜保存失敗，請重試');
+      }
     } catch (error) {
       console.error('新增食譜失敗:', error);
       alert('新增食譜失敗，請重試');
