@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    image: timetotaste
+    container_name: timetotaste-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/timetotaste?serverTimezone=Asia/Taipei&characterEncoding=utf-8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 24601
+    ports:
+      - "8080:8080"
+
+
