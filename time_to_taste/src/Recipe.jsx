@@ -16,6 +16,10 @@ function Recipe() {
   useEffect(() => {
     fetchRecipes();
   }, []);
+  const addNewRecipe = () => {
+    // 導向新增食譜頁面
+    window.location.href = '/add-recipe';
+  }
 
   const fetchRecipes = async () => {
     try {
@@ -38,7 +42,17 @@ function Recipe() {
         
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">食譜列表</h2>
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-800">食譜列表</h2>
+              <button
+                onClick={addNewRecipe}
+                className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium shadow-md hover:shadow-lg flex items-center gap-2"
+              >
+                <span className="text-xl">+</span>
+                <span>新增食譜</span>
+              </button>
+            </div>
+
             
             {/* 載入中 */}
             {loading && (
@@ -153,6 +167,7 @@ function Recipe() {
       </div>
     </div>
   );
-}
+  }
+
 
 export default Recipe;

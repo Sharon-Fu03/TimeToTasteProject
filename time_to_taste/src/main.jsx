@@ -5,7 +5,7 @@ import './index.css';
 import App from './App.jsx';
 import reportWebVitals from './reportWebVitals';
 import Home from './Home.jsx';
-//import Recipe from './AddRecipe.jsx';
+import AddRecipe from './AddRecipe.jsx';
 import Recipe from './Recipe.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,6 +17,7 @@ root.render(
         <Route path="/" element={<Home />} />
         <Route path="/app" element={<App />} />
         <Route path="/recipe" element={<Recipe />} />
+        <Route path="/add-recipe" element={<AddRecipe />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
