@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.entity.Recipe;
 import com.example.demo.service.RecipeService;
 import com.example.demo.dao.RecipeDao;
+import java.util.List;
 
 @Service
 @Transactional
@@ -26,5 +27,10 @@ public class RecipeServiceImpl implements RecipeService {
             throw new IllegalArgumentException("recipe title is required");
         }
         return recipeDao.save(recipe);
+    }
+
+    @Override
+    public List<Recipe> getAllRecipes() {
+        return recipeDao.findAll();
     }
 }

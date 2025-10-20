@@ -110,4 +110,16 @@ public class RecipeController {
     public ResponseEntity<String> ping() {
         return ResponseEntity.ok("pong");
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getAllRecipes() {
+        try {
+            List<Recipe> recipes = recipeService.getAllRecipes();
+            return ResponseEntity.ok(recipes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("取得食譜列表失敗: " + e.getMessage());
+        }
+    }
 }
