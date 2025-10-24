@@ -30,8 +30,7 @@ const LoginDialog = ({ isOpen, onClose }) => {
         const { token,user } = response.data;
         localStorage.setItem('authToken', token);
         localStorage.setItem('authUser', JSON.stringify(user));
-        console.log('login user', user);
-        console.log('login token', token);
+
         setAuthToken(token);
         if (onClose) onClose();
       } else {

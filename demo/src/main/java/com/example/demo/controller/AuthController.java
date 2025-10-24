@@ -29,17 +29,8 @@ public class AuthController {
       if (user != null) {
         if (user.getPassword() != null && user.getPassword().equals(loginUser.getPassword())) {
           // generate token and return it in the response body
-          String token = JwtUtil.generateToken(loginUser.getEmail());
-          response.put("token", token);
-
-          // build user object to return (do not include password)
-          Map<String, Object> userMap = new java.util.HashMap<>();
-          userMap.put("email", user.getEmail());
-          userMap.put("id", user.getId());
-          userMap.put("role", user.getRole());
-          userMap.put("username", user.getUserName());
-
-          response.put("user", userMap);
+          response = authService.authenticate(loginUser.getEmail(), user);
+         
           return response;
         } else {
           response.put("login result","登入失敗 帳號密碼錯誤");
