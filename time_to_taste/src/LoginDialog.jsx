@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './Login.css';
+import api, { setAuthToken } from './utils/api';
 
 const LoginDialog = ({ isOpen, onClose }) => {
   useEffect(() => {
@@ -16,10 +17,30 @@ const LoginDialog = ({ isOpen, onClose }) => {
     };
   }, [isOpen, onClose]);
 
-  const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login submitted');
-    // TODO: 加入登入 API 調用
+    try {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      if (!email || !password) return;
+
+      const response = await api.post('api/auth/login', { email, password });
+      console.log('login response', response);
+      if (response && response.data) {
+        const { token,user } = response.data;
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('authUser', JSON.stringify(user));
+        console.log('login user', user);
+        console.log('login token', token);
+        setAuthToken(token);
+        if (onClose) onClose();
+      } else {
+        alert('登入失敗：伺服器回傳格式異常');
+      }
+    } catch (err) {
+      console.error('login error', err);
+      alert('登入失敗，請檢查帳號密碼');
+    }
   };
 
   if (!isOpen) return null;
