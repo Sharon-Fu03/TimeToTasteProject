@@ -20,7 +20,8 @@ export default function Navbar() {
         <div className="hidden md:flex space-x-6 text-gray-700 font-medium">
           <Link to="/" className="hover:text-green-600">首頁</Link>
           <Link to="/recipe" className="hover:text-green-600">食譜</Link>
-          <Link to="/app" className="hover:text-green-600">食材資料庫</Link>      
+          <Link to="/app" className="hover:text-green-600">食材資料庫</Link>
+           <Link to="/Aichat" className="hover:text-green-600">AIChat</Link>            
           <button onClick={() => setShowLoginDialog(true)} className="hover:text-green-600">登入</button>
         </div>
         <button
@@ -37,6 +38,7 @@ export default function Navbar() {
           <Link to="/" className="block hover:text-green-600">首頁</Link>
           <Link to="/recipe" className="block hover:text-green-600">食譜</Link>
           <Link to="/app" className="block hover:text-green-600">食材資料庫</Link>
+           <Link to="/Aichat" className="hover:text-green-600">AIChat</Link>       
           <button onClick={() => setShowLoginDialog(true)} className="block hover:text-green-600 text-left">登入</button>
         </div>
       )}
