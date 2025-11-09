@@ -131,7 +131,7 @@ function Recipe() {
           
           <form onSubmit={handleSubmit} className="">
             {/* 食譜基本資訊 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 ">
               <div className="">
                 <label className="block text-sm  font-medium text-gray-700 mb-2">
                   食譜名稱 *
@@ -146,46 +146,44 @@ function Recipe() {
                 />
               </div>
               
-              <div  className = "md:grid-cols-1">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  烹飪時間(分)
-                </label>
+              <div  className = "">
+   
                 <input
-                  type="number"
-                  value={cookingTime}
-                  onChange={(e) => setCookingTime(e.target.value)}
-                  className=" py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="例如：30分鐘"
-                />
+                   type="file"
+                   onChange={(e) => uploadImage(e.target.files[0])}
+                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                 />
+                  {coverImage && <img src={coverImage} alt="cover" className="w-32 h-32 object-cover" />}
+
+              </div> 
+              <div className="flex flex-col md:flex-row md:items-end md:gap-6">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    烹飪時間(分)
+                  </label>
+                  <input
+                    type="number"
+                    value={cookingTime}
+                    onChange={(e) => setCookingTime(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="例如：30"
+                  />
+                </div>
+
+                <div className="w-40 md:w-32">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    份數
+                  </label>
+                  <input
+                    type="number"
+                    value={servings}
+                    onChange={(e) => setServings(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="例如：4"
+                  />
+                </div>
               </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  份數
-                </label>
-                <input
-                  type="number"
-                  value={servings}
-                  onChange={(e) => setServings(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="例如：4人份"
-                />
-              </div>
-                <div className="flex items-center justify-between mb-4">
-                <input
-                  type="file"
-                  onChange={(e) => uploadImage(e.target.files[0])}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-                <img src= {coverImage} />
-                {/* <button
-                  type="button"
-                  onClick={uploadImage}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
-                >
-                  + 新增封面照片
-                </button> */}
-              </div>
+
             </div>
 
             {/* 食譜描述 */}
