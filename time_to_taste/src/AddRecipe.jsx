@@ -15,7 +15,7 @@ function Recipe() {
   const [description, setDescription] = useState('');
   const [cookingTime, setCookingTime] = useState('');
   const [servings, setServings] = useState('');
-
+  const [coverImage,setcoverImage] = useState('');
   // 新增食材
   const addIngredient = () => {
     setIngredients([...ingredients, { name: '', amount: '' }]);
@@ -33,6 +33,13 @@ function Recipe() {
     newIngredients[index][field] = value;
     setIngredients(newIngredients);
   };
+  //上傳照片
+  const uploadImage = (file) =>{
+    const uploadImage = coverImage;
+    setcoverImage(URL.createObjectURL(file));
+    console.log('上傳照片:', uploadImage);
+
+  }
 
   // 新增步驟
   const addStep = () => {
@@ -122,7 +129,7 @@ function Recipe() {
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">新增食譜</h2>
           
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="">
             {/* 食譜基本資訊 */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
               <div className="">
@@ -163,6 +170,21 @@ function Recipe() {
                   className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="例如：4人份"
                 />
+              </div>
+                <div className="flex items-center justify-between mb-4">
+                <input
+                  type="file"
+                  onChange={(e) => uploadImage(e.target.files[0])}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+                <img src= {coverImage} />
+                {/* <button
+                  type="button"
+                  onClick={uploadImage}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+                >
+                  + 新增封面照片
+                </button> */}
               </div>
             </div>
 
