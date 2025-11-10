@@ -1,6 +1,6 @@
 import './App.css';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PieChart } from '@mui/x-charts';
 import Navbar from './Navbar';
 import './index.css';
@@ -21,6 +21,16 @@ function Recipe() {
     setIngredients([...ingredients, { name: '', amount: '' }]);
   };
 
+  //轉換圖片檔
+  async function blobUrlToBase64(blobUrl) {
+  const response = await fetch(blobUrl);
+  const blob = await response.blob();
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+}
   // 刪除食材
   const removeIngredient = (index) => {
     const newIngredients = ingredients.filter((_, i) => i !== index);
@@ -33,12 +43,30 @@ function Recipe() {
     newIngredients[index][field] = value;
     setIngredients(newIngredients);
   };
-  //上傳照片
+  // 上傳照片（接收 File，檢查存在性並建立預覽 URL）
   const uploadImage = (file) =>{
-    const uploadImage = coverImage;
-    setcoverImage(URL.createObjectURL(file));
-    console.log('上傳照片:', uploadImage);
+    if (!file) return;
+    try {
+      const previewUrl = URL.createObjectURL(file);
+      setcoverImage(previewUrl);
+      console.log('上傳照片:', file);
+    } catch (err) {
+      console.error('建立預覽失敗:', err);
+    }
+  }
 
+  // 隱藏的 input ref，用於觸發檔案對話框
+  const fileInputRef = useRef(null);
+
+  const openFilePicker = () => {
+    if (fileInputRef.current) fileInputRef.current.click();
+  }
+
+  const handleBoxKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openFilePicker();
+    }
   }
 
   // 新增步驟
@@ -78,17 +106,23 @@ function Recipe() {
       alert('請填寫所有步驟內容');
       return;
     }
-
-    const recipeData = {
+  blobUrlToBase64(coverImage).then(async (base64) => {
+      console.log('封面圖片轉Base64完成', base64);
+      const recipeData = {
       title: recipeName,
       description: description,
       cookingTime: cookingTime,
       servings: servings,
       ingredients: ingredients.filter(ing => ing.name.trim()),
       steps: steps.filter(step => step.trim()),
+      coverImage: base64,
       usersId: 1  // TODO: 實作登入後，從 session/localStorage 取得真實的使用者 ID
     };
+    
 
+  console.log('封面圖片Base64:', base64);
+
+  console.log('食譜資料:', recipeData);
     try {
       console.log('食譜資料:', recipeData);
       // 這裡可以加入API調用來保存食譜 
@@ -108,8 +142,10 @@ function Recipe() {
       console.error('新增食譜失敗:', error);
       alert('新增食譜失敗，請重試');
     }
-  };
-
+  }).catch((error) => {
+      console.error('封面圖片轉Base64失敗', error);
+    });
+  // });
   // 重置表單
   const resetForm = () => {
     setRecipeName('');
@@ -145,8 +181,41 @@ function Recipe() {
                   required
                 />
               </div>
-              
-              <div  className = "">
+              <br/>
+              <div className="flex items-center justify-center w-full">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={openFilePicker}
+                  onKeyDown={handleBoxKeyDown}
+                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                >
+                  {coverImage ? (
+                    <img
+                      src={coverImage}
+                      alt="cover preview"
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg className="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                      </svg>
+                      <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                      <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                    </div>
+                  )}
+
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => uploadImage(e.target.files?.[0])}
+                  />
+                </div>
+              </div>
+              {/* <div  className = "">
    
                 <input
                    type="file"
@@ -155,7 +224,7 @@ function Recipe() {
                  />
                   {coverImage && <img src={coverImage} alt="cover" className="w-32 h-32 object-cover" />}
 
-              </div> 
+              </div>  */}
               <div className="flex flex-col md:flex-row md:items-end md:gap-6">
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -312,6 +381,6 @@ function Recipe() {
     </div>
   );
 }
-
+}
 export default Recipe;
 
