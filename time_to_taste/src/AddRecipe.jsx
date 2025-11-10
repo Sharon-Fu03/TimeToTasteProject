@@ -20,7 +20,6 @@ function Recipe() {
   const addIngredient = () => {
     setIngredients([...ingredients, { name: '', amount: '' }]);
   };
-
   //轉換圖片檔
   async function blobUrlToBase64(blobUrl) {
   const response = await fetch(blobUrl);
@@ -31,6 +30,7 @@ function Recipe() {
     reader.readAsDataURL(blob);
   });
 }
+
   // 刪除食材
   const removeIngredient = (index) => {
     const newIngredients = ingredients.filter((_, i) => i !== index);
@@ -106,24 +106,20 @@ function Recipe() {
       alert('請填寫所有步驟內容');
       return;
     }
-  blobUrlToBase64(coverImage).then(async (base64) => {
-      console.log('封面圖片轉Base64完成', base64);
-      const recipeData = {
-      title: recipeName,
-      description: description,
-      cookingTime: cookingTime,
-      servings: servings,
-      ingredients: ingredients.filter(ing => ing.name.trim()),
-      steps: steps.filter(step => step.trim()),
-      coverImage: base64,
-      usersId: 1  // TODO: 實作登入後，從 session/localStorage 取得真實的使用者 ID
-    };
-    
-
-  console.log('封面圖片Base64:', base64);
-
-  console.log('食譜資料:', recipeData);
     try {
+      const base64Image = await blobUrlToBase64(coverImage);
+      console.log('Base64 圖片字串:', base64Image);
+      const recipeData = {
+        title: recipeName,
+        description: description,
+        cookingTime: cookingTime,
+        servings: servings,
+        ingredients: ingredients.filter(ing => ing.name.trim()),
+        steps: steps.filter(step => step.trim()),
+        coverImage: base64Image,
+        usersId: 1  // TODO: 實作登入後，從 session/localStorage 取得真實的使用者 ID
+      };
+
       console.log('食譜資料:', recipeData);
       // 這裡可以加入API調用來保存食譜 
       const response = await axios.post('/api/recipe/saveRecipe', recipeData);
@@ -142,10 +138,11 @@ function Recipe() {
       console.error('新增食譜失敗:', error);
       alert('新增食譜失敗，請重試');
     }
-  }).catch((error) => {
-      console.error('封面圖片轉Base64失敗', error);
-    });
-  // });
+
+
+
+  };
+
   // 重置表單
   const resetForm = () => {
     setRecipeName('');
@@ -381,6 +378,6 @@ function Recipe() {
     </div>
   );
 }
-}
+
 export default Recipe;
 
