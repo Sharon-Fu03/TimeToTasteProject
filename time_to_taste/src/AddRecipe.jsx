@@ -164,42 +164,29 @@ function Recipe() {
           
           <form onSubmit={handleSubmit} className="">
             {/* 食譜基本資訊 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 ">
-              <div className="">
-                <label className="block text-sm  font-medium text-gray-700 mb-2">
-                  食譜名稱 *
-                </label>
-                <input
-                  type="text"
-                  value={recipeName}
-                  onChange={(e) => setRecipeName(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="請輸入食譜名稱"
-                  required
-                />
-              </div>
-              <br/>
-              <div className="flex items-center justify-center w-full">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+              {/* Image column */}
+              <div className="col-span-1">
                 <div
                   role="button"
                   tabIndex={0}
                   onClick={openFilePicker}
                   onKeyDown={handleBoxKeyDown}
-                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                  className="relative w-full h-64 rounded-lg overflow-hidden border border-gray-200 bg-white shadow-sm cursor-pointer hover:shadow-md transition-shadow"
                 >
                   {coverImage ? (
                     <img
                       src={coverImage}
                       alt="cover preview"
-                      className="w-full h-full object-cover rounded-lg"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg className="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                    <div className="flex flex-col items-center justify-center h-full p-4 bg-gray-50">
+                      <svg className="w-10 h-10 mb-3 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                       </svg>
-                      <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                      <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                      <p className="text-sm font-medium text-gray-700">上傳封面圖片</p>
+                      <p className="text-xs text-gray-500">支援 JPG / PNG / GIF (建議 800x600)</p>
                     </div>
                   )}
 
@@ -210,42 +197,75 @@ function Recipe() {
                     className="hidden"
                     onChange={(e) => uploadImage(e.target.files?.[0])}
                   />
+
+                  {coverImage && (
+                    <div className="absolute top-2 right-2">
+                      <button
+                        type="button"
+                        onClick={(ev) => { ev.stopPropagation(); setcoverImage(''); }}
+                        className="bg-white bg-opacity-80 text-gray-700 px-2 py-1 rounded-md text-sm shadow-sm hover:bg-opacity-100"
+                      >
+                        移除
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-              {/* <div  className = "">
-   
-                <input
-                   type="file"
-                   onChange={(e) => uploadImage(e.target.files[0])}
-                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                 />
-                  {coverImage && <img src={coverImage} alt="cover" className="w-32 h-32 object-cover" />}
 
-              </div>  */}
-              <div className="flex flex-col md:flex-row md:items-end md:gap-6">
-                <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    烹飪時間(分)
+              {/* Form fields column */}
+              <div className="col-span-1 md:col-span-2 space-y-4">
+                <div>
+                  <label className="block text-sm  font-medium text-gray-700 mb-2">
+                    食譜名稱 *
                   </label>
                   <input
-                    type="number"
-                    value={cookingTime}
-                    onChange={(e) => setCookingTime(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="例如：30"
+                    type="text"
+                    value={recipeName}
+                    onChange={(e) => setRecipeName(e.target.value)}
+                    className="w-full px-3 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
+                    placeholder="請輸入食譜名稱"
+                    required
                   />
                 </div>
 
-                <div className="w-40 md:w-32">
+                <div className="flex flex-col md:flex-row md:items-end md:gap-6">
+                  <div className="flex-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      烹飪時間(分)
+                    </label>
+                    <input
+                      type="number"
+                      value={cookingTime}
+                      onChange={(e) => setCookingTime(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="例如：30"
+                    />
+                  </div>
+
+                  <div className="w-40 md:w-32 mt-3 md:mt-0">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      份數
+                    </label>
+                    <input
+                      type="number"
+                      value={servings}
+                      onChange={(e) => setServings(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="例如：4"
+                    />
+                  </div>
+                </div>
+
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    份數
+                    食譜描述
                   </label>
-                  <input
-                    type="number"
-                    value={servings}
-                    onChange={(e) => setServings(e.target.value)}
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="例如：4"
+                    rows="3"
+                    placeholder="簡單描述這道料理..."
                   />
                 </div>
               </div>
