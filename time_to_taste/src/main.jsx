@@ -8,7 +8,7 @@ import Home from './Home.jsx';
 import AddRecipe from './AddRecipe.jsx';
 import Recipe from './Recipe.jsx';
 import AiChat from './AIchat.jsx';
-
+import EditPage from './EditRecipe.jsx';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
  <React.StrictMode>
@@ -20,6 +20,7 @@ root.render(
         <Route path="/recipe" element={<Recipe />} />
         <Route path="/add-recipe" element={<AddRecipe />} />
         <Route path="/Aichat" element={<AiChat />} />
+        <Route path="/edit/:id" element={<EditPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

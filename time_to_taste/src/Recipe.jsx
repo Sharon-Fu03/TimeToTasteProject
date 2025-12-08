@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import './index.css';
 import Footer from './Footer';
-
+import { useNavigate } from 'react-router-dom';
 
 function Recipe() {
   // 狀態管理
@@ -12,13 +12,14 @@ function Recipe() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const navigate = useNavigate();
   // 載入食譜列表
   useEffect(() => {
     fetchRecipes();
   }, []);
   const addNewRecipe = () => {
     // 導向新增食譜頁面
-    window.location.href = '/add-recipe';
+    navigate('/add-recipe');
   }
 
   const fetchRecipes = async () => {
@@ -34,7 +35,10 @@ function Recipe() {
       setLoading(false);
     }
   };
-
+  const editRecipe = (id) => {
+    if (id == null ) return;
+    navigate(`/edit/${id}`);
+  }
   return (
     <div>
       <div className="App min-h-screen bg-gray-50">
@@ -152,7 +156,7 @@ function Recipe() {
                           <button className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm">
                             查看詳情
                           </button>
-                          <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition-colors text-sm">
+                          <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition-colors text-sm" onClick={() => editRecipe(recipe.id)}>
                             編輯
                           </button>
                         </div>
