@@ -33,4 +33,13 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> getAllRecipes() {
         return recipeDao.findAll();
     }
+    @Override
+    public Recipe getRecipeById(Integer id) {
+        if(id!=null && id<=0){
+            throw new IllegalArgumentException("Invalid recipe ID");
+        }
+        else{
+            return recipeDao.findById(id).orElse(null);
+        }
+    }
 }
