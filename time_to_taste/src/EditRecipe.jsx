@@ -27,11 +27,15 @@ function Recipe() {
       const recipe = response.data;
 
       setRecipeName(recipe.title || '');
-
-      for(let ing of recipe.ingredients){      
-        ingredients.push({name: ing.name, amount: ing.amount});
-      }
-      for(let ing of recipe.steps){
+      const newIngredients = (recipe.ingredients || []).map(ing => ({
+          name: ing.name || '',
+          amount: ing.amount || ''
+      }));
+      setIngredients(newIngredients.length ==0 ? newIngredients : [{ name: '', amount: '' }]);
+        
+      
+      setSteps([]);
+       for(let ing of recipe.steps){
         steps.push({name: ing.name, amount: ing.amount});
       }
 
