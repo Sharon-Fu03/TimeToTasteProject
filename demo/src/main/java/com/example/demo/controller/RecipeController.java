@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import java.util.Base64;
 import com.example.demo.entity.Recipe;
 import com.example.demo.entity.RecipeIngredient;
 import com.example.demo.service.RecipeService;
@@ -28,7 +29,7 @@ public class RecipeController {
     public ResponseEntity<?> saveRecipe(@RequestBody Map<String, Object> params) {
         try {
             Recipe newRecipe = new Recipe();
-            
+            System.err.println("Params"+params);
             // 設置基本資訊
             newRecipe.setTitle((String) params.get("title"));
             newRecipe.setDescription((String) params.get("description"));
@@ -89,6 +90,18 @@ public class RecipeController {
             } else {
                 newRecipe.setStatus("draft"); // 預設為草稿
             }
+            if (params.get("coverImage") != null) {
+                String[] images = params.get("coverImage").toString().split(",");
+                if (images.length > 1 && images[1] != null && !images[1].trim().isEmpty()) {
+                    try {
+                        byte[] imageBytes = Base64.getDecoder().decode(images[1].trim());
+                        newRecipe.setCoverImage(imageBytes);
+                    } catch (IllegalArgumentException iae) {
+                        // invalid base64 - ignore or handle as needed
+                        System.err.println("Invalid base64 image data: " + iae.getMessage());
+                    }
+                }
+            }
             
             Recipe saved = recipeService.saveRecipe(newRecipe);
             return ResponseEntity.status(HttpStatus.CREATED).body(saved);
@@ -111,6 +124,22 @@ public class RecipeController {
         return ResponseEntity.ok("pong");
     }
 
+    @GetMapping("/getRecipeById/{id}")
+    public ResponseEntity<?> getRecipeById(@PathVariable Integer id) {
+        try {
+            Recipe recipe = recipeService.getRecipeById(id);
+            if (recipe != null) {
+                return ResponseEntity.ok(recipe);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("找不到 ID 為 " + id + " 的食譜");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Get recipe by ID failed: " + e.getMessage());
+        }
+    }
     @GetMapping("/list")
     public ResponseEntity<?> getAllRecipes() {
         try {

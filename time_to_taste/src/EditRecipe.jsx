@@ -34,8 +34,8 @@ function Recipe() {
       setIngredients(newIngredients.length ==0 ? newIngredients : [{ name: '', amount: '' }]);
         
       
-      setSteps([]);
-       for(let ing of recipe.steps){
+      //setSteps([]);
+      for(let ing of recipe.steps){
         steps.push({name: ing.name, amount: ing.amount});
       }
 
