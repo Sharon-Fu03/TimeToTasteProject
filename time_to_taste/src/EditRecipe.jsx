@@ -19,6 +19,11 @@ function Recipe() {
   const [coverImage,setcoverImage] = useState('');
   const{id} = useParams();
 
+  useEffect(() => {
+    if (id) {
+      init(id);
+    }
+  }, [id]);
 
   const init = async (id) => {
 
@@ -31,13 +36,12 @@ function Recipe() {
           name: ing.name || '',
           amount: ing.amount || ''
       }));
-      setIngredients(newIngredients.length ==0 ? newIngredients : [{ name: '', amount: '' }]);
-        
       
-      //setSteps([]);
-      for(let ing of recipe.steps){
-        steps.push({name: ing.name, amount: ing.amount});
-      }
+      setIngredients(newIngredients.length ==0 ? newIngredients : [{ name: '', amount: '' }]);
+      const initSteps = (recipe.steps || []);  
+      console.log('初始化步驟:', initSteps);
+      setSteps(initSteps);
+      
 
       setDescription(recipe.description || '');
       setCookingTime(recipe.cookingTime || '');
@@ -47,25 +51,24 @@ function Recipe() {
       console.error('取得食譜失敗:', response);
     }
   
-    
   }
-  init(id);
-  
 
   // 新增食材
   const addIngredient = () => {
     setIngredients([...ingredients, { name: '', amount: '' }]);
   };
-//   //轉換圖片檔
-//   async function blobUrlToBase64(blobUrl) {
-//   const response = await fetch(blobUrl);
-//   const blob = await response.blob();
-//   return new Promise((resolve) => {
-//     const reader = new FileReader();
-//     reader.onloadend = () => resolve(reader.result);
-//     reader.readAsDataURL(blob);
-//   });
-// }
+
+  // 轉換圖片檔
+  async function blobUrlToBase64(blobUrl) {
+    if (!blobUrl) return '';
+    const response = await fetch(blobUrl);
+    const blob = await response.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
 
   // 刪除食材
   const removeIngredient = (index) => {
