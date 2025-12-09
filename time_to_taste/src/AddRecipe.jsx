@@ -11,11 +11,11 @@ function Recipe() {
   // 狀態管理
   const [recipeName, setRecipeName] = useState('');
   const [ingredients, setIngredients] = useState([{ name: '', amount: '' }]);
-  const [steps, setSteps] = useState(['']);
   const [description, setDescription] = useState('');
   const [cookingTime, setCookingTime] = useState('');
   const [servings, setServings] = useState('');
   const [coverImage,setcoverImage] = useState('');
+  const [steps, setSteps] = useState(['']);
   // 新增食材
   const addIngredient = () => {
     setIngredients([...ingredients, { name: '', amount: '' }]);
@@ -71,7 +71,7 @@ function Recipe() {
 
   // 新增步驟
   const addStep = () => {
-    setSteps([...steps, '']);
+    setSteps(prev => [...prev, '']);
   };
 
   // 刪除步驟
@@ -115,12 +115,11 @@ function Recipe() {
         cookingTime: cookingTime,
         servings: servings,
         ingredients: ingredients.filter(ing => ing.name.trim()),
-        steps: steps.filter(step => step.trim()),
+        steps: steps,
         coverImage: base64Image,
         usersId: 1  // TODO: 實作登入後，從 session/localStorage 取得真實的使用者 ID
       };
 
-      console.log('食譜資料:', recipeData);
       // 這裡可以加入API調用來保存食譜 
       const response = await axios.post('/api/recipe/saveRecipe', recipeData);
       
@@ -256,18 +255,6 @@ function Recipe() {
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    食譜描述
-                  </label>
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    rows="3"
-                    placeholder="簡單描述這道料理..."
-                  />
-                </div>
               </div>
 
             </div>
