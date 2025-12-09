@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +21,10 @@ public class Recipe {
 
     @Column(name = "recipe_desc", columnDefinition = "TEXT")
     private String description;
-
-    @Column(name = "recipe_steps", columnDefinition = "TEXT")
-    private String steps;
+    
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "recipe_steps", columnDefinition = "JSON")
+    private List<String> steps;
 
     @Column(name = "recipe_servings")
     private Integer servings;
@@ -75,11 +78,11 @@ public class Recipe {
         this.description = description;
     }
 
-    public String getSteps() {
+    public List<String> getSteps() {
         return steps;
     }
 
-    public void setSteps(String steps) {
+    public void setSteps(List<String> steps) {
         this.steps = steps;
     }
 
