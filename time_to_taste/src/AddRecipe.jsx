@@ -281,6 +281,7 @@ function Recipe() {
                     <input
                       type="number"
                       value={cookingTime}
+                      min={0}
                       onChange={(e) => setCookingTime(e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="例如：30"
@@ -294,6 +295,7 @@ function Recipe() {
                     <input
                       type="number"
                       value={servings}
+                      min={0}
                       onChange={(e) => setServings(e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="例如：4"
