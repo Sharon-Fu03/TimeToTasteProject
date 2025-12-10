@@ -148,6 +148,12 @@ public class RecipeController {
     public ResponseEntity<?> getAllRecipes() {
         try {
             List<Recipe> recipes = recipeService.getAllRecipes();
+            for(Recipe recipe : recipes){
+                if(recipe.getCoverImage() != null){
+                    String base64Image = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipe.getCoverImage());
+                    recipe.setCoverImageBase64(base64Image);
+                }
+            }
             return ResponseEntity.ok(recipes);
         } catch (Exception e) {
             e.printStackTrace();

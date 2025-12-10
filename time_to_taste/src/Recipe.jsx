@@ -114,37 +114,12 @@ function Recipe() {
                               {recipe.status === 'draft' ? '草稿' : '已發布'}
                             </span>
                           </div>
-
-                          {/* 食材列表 */}
-                          {recipe.ingredients && recipe.ingredients.length > 0 && (
-                            <div className="mb-4">
-                              <h4 className="font-medium text-gray-700 mb-2">食材：</h4>
-                              <ul className="space-y-1">
-                                {recipe.ingredients.slice(0, 3).map((ing, idx) => (
-                                  <li key={idx} className="text-sm text-gray-600">
-                                    • {ing.name} {ing.amount}
-                                  </li>
-                                ))}
-                                {recipe.ingredients.length > 3 && (
-                                  <li className="text-sm text-gray-500">
-                                    ... 還有 {recipe.ingredients.length - 3} 種食材
-                                  </li>
-                                )}
-                              </ul>
-                            </div>
+                          <div className="mb-4">
+                          </div>
+                          {recipe.coverImageBase64 && (
+                            <img src={recipe.coverImageBase64} alt={recipe.title} />
                           )}
-
-                          {/* 步驟預覽 */}
-                          {recipe.steps && (
-                            <div className="mb-4">
-                              <h4 className="font-medium text-gray-700 mb-2">步驟：</h4>
-                              <p className="text-sm text-gray-600 line-clamp-2">
-                                {typeof recipe.steps === 'string' 
-                                  ? recipe.steps.split('\n')[0]
-                                  : recipe.steps[0]}
-                              </p>
-                            </div>
-                          )}
+                          
 
                           <div className="text-xs text-gray-400 mt-4">
                             建立時間: {new Date(recipe.createdAt).toLocaleDateString('zh-TW')}
