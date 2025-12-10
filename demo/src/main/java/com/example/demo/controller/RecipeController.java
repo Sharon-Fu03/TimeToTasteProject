@@ -28,7 +28,18 @@ public class RecipeController {
     @PostMapping("/saveRecipe")
     public ResponseEntity<?> saveRecipe(@RequestBody Map<String, Object> params) {
         try {
-            Recipe newRecipe = new Recipe();
+            Recipe newRecipe ;
+            //編輯
+            if ("Y".equals(params.get("isEdited")) && params.get("id") != null) {
+                Integer recipeId = Integer.valueOf(params.get("id").toString());
+                newRecipe = recipeService.getRecipeById(recipeId);
+                if (newRecipe == null) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("找不到 ID 為 " + recipeId + " 的食譜，無法編輯");
+                }
+            }else{//新增
+                newRecipe = new Recipe();
+            }
             newRecipe.setTitle((String) params.get("title"));
             newRecipe.setDescription((String) params.get("description"));
             

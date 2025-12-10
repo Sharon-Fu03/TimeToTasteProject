@@ -9,10 +9,10 @@ const Home = () => {
       {/* 搜尋區 */}
       <div className="text-center mb-14 md:mb-16">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-          發現健康美食靈感
+          今天有好好吃飯了嗎？
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-          精選營養均衡的食譜，讓每一餐都充滿驚喜與健康
+          知時光幫助您更有意識地挑選食物
         </p>
 
         <div className="max-w-2xl mx-auto relative">

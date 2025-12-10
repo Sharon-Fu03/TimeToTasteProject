@@ -5,6 +5,7 @@ import { PieChart } from '@mui/x-charts';
 import Navbar from './Navbar';
 import './index.css';
 import Footer from './Footer';
+import { useParams } from 'react-router-dom';
 
 
 function Recipe() {
@@ -16,20 +17,61 @@ function Recipe() {
   const [servings, setServings] = useState('');
   const [coverImage,setcoverImage] = useState('');
   const [steps, setSteps] = useState(['']);
+  const { id } = useParams();
+
+  // 編輯模式：載入現有食譜資料
+  useEffect(() => {
+    if (id) {
+      init(id);
+    }
+  }, [id]);
+
+  const init = async (id) => {
+    try {
+      const response = await axios.get('/api/recipe/getRecipeById/' + id);
+      if (response.status === 200) {
+        const recipe = response.data;
+
+        setRecipeName(recipe.title || '');
+        
+        const newIngredients = (recipe.ingredients || []).map(ing => ({
+          name: ing.name || '',
+          amount: ing.amount || ''
+        }));
+        setIngredients(newIngredients.length > 0 ? newIngredients : [{ name: '', amount: '' }]);
+        
+        const initSteps = (recipe.steps || []);  
+        setSteps(initSteps.length > 0 ? initSteps : ['']);
+
+        setDescription(recipe.description || '');
+        setCookingTime(recipe.time || '');
+        setServings(recipe.servings || '');
+        setcoverImage(recipe.coverImage || '');
+      } else {
+        console.error('取得食譜失敗:', response);
+      }
+    } catch (error) {
+      console.error('載入食譜失敗:', error);
+      alert('載入食譜失敗，請重試');
+    }
+  };
+
   // 新增食材
   const addIngredient = () => {
     setIngredients([...ingredients, { name: '', amount: '' }]);
   };
-  //轉換圖片檔
+
+  // 轉換圖片檔
   async function blobUrlToBase64(blobUrl) {
-  const response = await fetch(blobUrl);
-  const blob = await response.blob();
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
-    reader.readAsDataURL(blob);
-  });
-}
+    if (!blobUrl) return '';
+    const response = await fetch(blobUrl);
+    const blob = await response.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
 
   // 刪除食材
   const removeIngredient = (index) => {
@@ -110,6 +152,7 @@ function Recipe() {
       const base64Image = await blobUrlToBase64(coverImage);
       console.log('Base64 圖片字串:', base64Image);
       const recipeData = {
+        id: id || null,
         title: recipeName,
         description: description,
         cookingTime: cookingTime,
@@ -117,7 +160,8 @@ function Recipe() {
         ingredients: ingredients.filter(ing => ing.name.trim()),
         steps: steps,
         coverImage: base64Image,
-        usersId: 1  // TODO: 實作登入後，從 session/localStorage 取得真實的使用者 ID
+        usersId: 1  ,//先假設
+        isEdited: id ? 'Y' : 'N'
       };
 
       // 這裡可以加入API調用來保存食譜 
@@ -125,10 +169,10 @@ function Recipe() {
       
       // 檢查成功狀態碼：200 OK 或 201 Created
       if (response.status === 200 || response.status === 201) {
-        alert('食譜新增成功！');
+        alert(id ? '食譜更新成功！' : '食譜新增成功！');
         console.log('已儲存的食譜:', response.data);
         // 重置表單
-        resetForm();
+        if (!id) resetForm();
       } else {
         console.error('食譜保存失敗:', response);
         alert('食譜保存失敗，請重試');
@@ -159,7 +203,9 @@ function Recipe() {
       
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">新增食譜</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+            {id ? '編輯食譜' : '新增食譜'}
+          </h2>
           
           <form onSubmit={handleSubmit} className="">
             {/* 食譜基本資訊 */}
