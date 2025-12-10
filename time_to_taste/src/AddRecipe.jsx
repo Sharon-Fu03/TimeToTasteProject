@@ -17,6 +17,7 @@ function Recipe() {
   const [servings, setServings] = useState('');
   const [coverImage,setcoverImage] = useState('');
   const [steps, setSteps] = useState(['']);
+  const [imageFile, setImageFile] = useState(null);
   const { id } = useParams();
 
   // 編輯模式：載入現有食譜資料
@@ -46,7 +47,7 @@ function Recipe() {
         setDescription(recipe.description || '');
         setCookingTime(recipe.time || '');
         setServings(recipe.servings || '');
-        setcoverImage(recipe.coverImage || '');
+        setcoverImage(recipe.coverImageBase64 || '');
       } else {
         console.error('取得食譜失敗:', response);
       }
@@ -85,13 +86,13 @@ function Recipe() {
     newIngredients[index][field] = value;
     setIngredients(newIngredients);
   };
-  // 上傳照片（接收 File，檢查存在性並建立預覽 URL）
+  // 錢端上傳後preview
   const uploadImage = (file) =>{
     if (!file) return;
     try {
       const previewUrl = URL.createObjectURL(file);
       setcoverImage(previewUrl);
-      console.log('上傳照片:', file);
+      setImageFile(file); //後面再使用formData處理
     } catch (err) {
       console.error('建立預覽失敗:', err);
     }
@@ -149,8 +150,7 @@ function Recipe() {
       return;
     }
     try {
-      const base64Image = await blobUrlToBase64(coverImage);
-      console.log('Base64 圖片字串:', base64Image);
+      const formData = new FormData();
       const recipeData = {
         id: id || null,
         title: recipeName,
@@ -159,13 +159,16 @@ function Recipe() {
         servings: servings,
         ingredients: ingredients.filter(ing => ing.name.trim()),
         steps: steps,
-        coverImage: base64Image,
         usersId: 1  ,//先假設
         isEdited: id ? 'Y' : 'N'
       };
-
+      formData.append('recipeData', JSON.stringify(recipeData));
+      if(imageFile){
+        formData.append('coverImage', imageFile);
+      }
       // 這裡可以加入API調用來保存食譜 
-      const response = await axios.post('/api/recipe/saveRecipe', recipeData);
+      const response = await axios.post('/api/recipe/saveRecipe',  formData,{headers: { "Content-Type": "multipart/form-data" }
+      });
       
       // 檢查成功狀態碼：200 OK 或 201 Created
       if (response.status === 200 || response.status === 201) {

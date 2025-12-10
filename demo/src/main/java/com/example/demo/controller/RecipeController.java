@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 
 import java.util.List;
 import java.util.Map;
@@ -25,9 +27,14 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @PostMapping("/saveRecipe")
-    public ResponseEntity<?> saveRecipe(@RequestBody Map<String, Object> params) {
+    @PostMapping(value = "/saveRecipe", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> saveRecipe(
+        @RequestPart("recipeData") String recipeDataJson,
+        @RequestParam(value = "coverImage", required = false) MultipartFile coverImageFile) {
         try {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> params = objectMapper.readValue(recipeDataJson, Map.class);
+            
             Recipe newRecipe ;
             //編輯
             if ("Y".equals(params.get("isEdited")) && params.get("id") != null) {
@@ -91,17 +98,9 @@ public class RecipeController {
             } else {
                 newRecipe.setStatus("draft"); // 預設為草稿
             }
-            if (params.get("coverImage") != null) {
-                String[] images = params.get("coverImage").toString().split(",");
-                if (images.length > 1 && images[1] != null && !images[1].trim().isEmpty()) {
-                    try {
-                        byte[] imageBytes = Base64.getDecoder().decode(images[1].trim());
-                        //newRecipe.setCoverImage(imageBytes);
-                    } catch (IllegalArgumentException iae) {
-                        // invalid base64 - ignore or handle as needed
-                        System.err.println("Invalid base64 image data: " + iae.getMessage());
-                    }
-                }
+            if (coverImageFile != null && !coverImageFile.isEmpty()) {
+                byte[] imageBytes = coverImageFile.getBytes();
+                newRecipe.setCoverImage(imageBytes);
             }
             
             Recipe saved = recipeService.saveRecipe(newRecipe);
@@ -130,6 +129,10 @@ public class RecipeController {
         try {
             Recipe recipe = recipeService.getRecipeById(id);
             if (recipe != null) {
+                if(recipe.getCoverImage() != null){
+                    String base64Image = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(recipe.getCoverImage());
+                    recipe.setCoverImageBase64(base64Image);
+                }
                 return ResponseEntity.ok(recipe);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)

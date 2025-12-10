@@ -43,8 +43,14 @@ public class Recipe {
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredient> ingredients = new ArrayList<>();
-
-    // lifecycle callback to set createdAt when persisting
+    
+    @Lob
+    @Column(name = "cover_image", columnDefinition = "LongBlob")
+    private byte[] coverImage;
+    
+    @Transient
+    private String coverImageBase64;
+    
     @PrePersist
     protected void onCreate() {
         if (this.createdAt == null) {
@@ -143,5 +149,17 @@ public class Recipe {
     public void removeIngredient(RecipeIngredient ingredient) {
         ingredients.remove(ingredient);
         ingredient.setRecipe(null);
+    }
+    public byte[] getCoverImage() {
+        return coverImage;
+    }
+    public void setCoverImage(byte[] coverImage) {
+        this.coverImage = coverImage;
+    }
+    public String getCoverImageBase64() {
+        return coverImageBase64;
+    }
+    public void setCoverImageBase64(String coverImageBase64) {
+        this.coverImageBase64 = coverImageBase64;
     }
 }
