@@ -93,11 +93,10 @@ function Recipe() {
                             {recipe.title}
                           </h3>
                           
-                          {recipe.description && (
-                            <p className="text-gray-600 mb-4 line-clamp-2">
-                              {recipe.description}
-                            </p>
+                          {recipe.coverImageBase64 && (
+                            <img src={recipe.coverImageBase64} alt={recipe.title} />
                           )}
+                          <br></br>
 
                           <div className="flex flex-wrap gap-3 mb-4">
                             {recipe.time && (
@@ -116,9 +115,6 @@ function Recipe() {
                           </div>
                           <div className="mb-4">
                           </div>
-                          {recipe.coverImageBase64 && (
-                            <img src={recipe.coverImageBase64} alt={recipe.title} />
-                          )}
                           
 
                           <div className="text-xs text-gray-400 mt-4">
