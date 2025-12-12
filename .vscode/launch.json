@@ -9,7 +9,7 @@
             "projectName": "demo",
             "args": "",
             "envFile": "${workspaceFolder}/.env",
-            "postDebugTask": "start-react"
+            
         },
         {
             "type": "node",
@@ -24,13 +24,5 @@
             "console": "integratedTerminal"
         }
     ],
-    "compounds": [
-        {
-            "name": "前後端一起啟動",
-            "configurations": [
-                "Spring Boot-DemoApplication<demo>",
-                "React Start"
-            ]
-        }
-    ]
+
 }
