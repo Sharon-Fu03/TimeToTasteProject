@@ -21,7 +21,6 @@ function AiChat() {
             // assume backend returns { reply: '...' } or plain text
             const botText = res?.data?.reply ?? res?.data ?? '';
 
-            // append messages: user then bot
             setMessages(prev => [...prev, { role: 'user', text: userInput }, { role: 'bot', text: botText }]);
             setUserInput('');
         } catch (error) {
@@ -59,7 +58,7 @@ function AiChat() {
                 <div className="mt-4">
                     {messages.map((m, idx) => (
                         <div key={idx} style={{ marginBottom: '8px' }}>
-                            <strong>{m.role === 'user' ? '你：' : '小幫手：'}</strong> {m.text}
+                            <strong>{m.role === 'user' ? '你：' : '營養師小光：'}</strong> {m.text}
                         </div>
                     ))}
                 </div>

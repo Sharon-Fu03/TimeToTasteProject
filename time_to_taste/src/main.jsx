@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import Home from './Home.jsx';
 import AddRecipe from './AddRecipe.jsx';
 import Recipe from './Recipe.jsx';
+import RecipeDetail from './RecipeDetail.jsx';
 import AiChat from './AIchat.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,6 +19,7 @@ root.render(
         <Route path="/" element={<Home />} />
         <Route path="/app" element={<App />} />
         <Route path="/recipe" element={<Recipe />} />
+        <Route path="/recipe/:id" element={<RecipeDetail />} />
         <Route path="/add-recipe" element={<AddRecipe />} />
         <Route path="/edit/:id" element={<AddRecipe />} />
         <Route path="/Aichat" element={<AiChat />} />

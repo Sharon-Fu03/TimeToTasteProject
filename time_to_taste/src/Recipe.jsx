@@ -127,7 +127,7 @@ function Recipe() {
 
                                     {/* 操作按鈕 */}
                         <div className="bg-gray-50 px-6 py-3 flex gap-2">
-                          <button className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm">
+                          <button onClick={() => navigate(`/recipe/${recipe.id}`)} className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm">
                             查看詳情
                           </button>
                           <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition-colors text-sm" onClick={() => editRecipe(recipe.id)}>
