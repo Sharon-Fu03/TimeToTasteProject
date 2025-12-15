@@ -6,8 +6,7 @@ import Navbar from './Navbar';
 import './index.css';
 import Footer from './Footer';
 import { useParams } from 'react-router-dom';
-
-
+import imageCompression from 'browser-image-compression';
 function Recipe() {
   // 狀態管理
   const [recipeName, setRecipeName] = useState('');
@@ -87,17 +86,25 @@ function Recipe() {
     setIngredients(newIngredients);
   };
   // 錢端上傳後preview
-  const uploadImage = (file) =>{
+  const uploadImage =async (file) =>{
     if (!file) return;
     try {
       const previewUrl = URL.createObjectURL(file);
+      const compressImage = await imageCompress (file)
       setcoverImage(previewUrl);
-      setImageFile(file); //後面再使用formData處理
+      setImageFile(compressImage); //後面再使用formData處理
     } catch (err) {
       console.error('建立預覽失敗:', err);
     }
   }
-
+  const imageCompress = async function name(file) {
+      const options = {
+      maxSizeMB: 1,          // 壓縮到 1MB 以下
+      maxWidthOrHeight: 1024 // 限制最大寬高
+     };
+    const compressedFile = await imageCompression(file, options);
+    return compressedFile
+  }
   // 隱藏的 input ref，用於觸發檔案對話框
   const fileInputRef = useRef(null);
 
