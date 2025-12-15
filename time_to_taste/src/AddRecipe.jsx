@@ -8,7 +8,6 @@ import Footer from './Footer';
 import { useParams } from 'react-router-dom';
 import imageCompression from 'browser-image-compression';
 function Recipe() {
-  // 狀態管理
   const [recipeName, setRecipeName] = useState('');
   const [ingredients, setIngredients] = useState([{ name: '', amount: '' }]);
   const [description, setDescription] = useState('');
@@ -19,7 +18,7 @@ function Recipe() {
   const [imageFile, setImageFile] = useState(null);
   const { id } = useParams();
 
-  // 編輯模式：載入現有食譜資料
+  //init
   useEffect(() => {
     if (id) {
       init(id);
@@ -28,7 +27,7 @@ function Recipe() {
 
   const init = async (id) => {
     try {
-      const response = await axios.get('/api/recipe/getRecipeById/' + id);
+      const response = await axios.get('/api/recipe/getRecipeById/' + id);//Get RecipeById
       if (response.status === 200) {
         const recipe = response.data;
 
@@ -73,26 +72,26 @@ function Recipe() {
     });
   }
 
-  // 刪除食材
+  // Delete ingredient
   const removeIngredient = (index) => {
     const newIngredients = ingredients.filter((_, i) => i !== index);
     setIngredients(newIngredients);
   };
 
-  // 更新食材
+  // UPDATE ingredient
   const updateIngredient = (index, field, value) => {
     const newIngredients = [...ingredients];
     newIngredients[index][field] = value;
     setIngredients(newIngredients);
   };
-  // 錢端上傳後preview
+  // Image Preview
   const uploadImage =async (file) =>{
     if (!file) return;
     try {
       const previewUrl = URL.createObjectURL(file);
       const compressImage = await imageCompress (file)
       setcoverImage(previewUrl);
-      setImageFile(compressImage); //後面再使用formData處理
+      setImageFile(compressImage); //Use formData behind.
     } catch (err) {
       console.error('建立預覽失敗:', err);
     }
@@ -105,7 +104,7 @@ function Recipe() {
     const compressedFile = await imageCompression(file, options);
     return compressedFile
   }
-  // 隱藏的 input ref，用於觸發檔案對話框
+  
   const fileInputRef = useRef(null);
 
   const openFilePicker = () => {
@@ -119,25 +118,24 @@ function Recipe() {
     }
   }
 
-  // 新增步驟
+
   const addStep = () => {
     setSteps(prev => [...prev, '']);
   };
 
-  // 刪除步驟
+
   const removeStep = (index) => {
     const newSteps = steps.filter((_, i) => i !== index);
     setSteps(newSteps);
   };
 
-  // 更新步驟
   const updateStep = (index, value) => {
     const newSteps = [...steps];
     newSteps[index] = value;
     setSteps(newSteps);
   };
 
-  // 提交表單
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -218,9 +216,9 @@ function Recipe() {
           </h2>
           
           <form onSubmit={handleSubmit} className="">
-            {/* 食譜基本資訊 */}
+            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-              {/* Image column */}
+              
               <div className="col-span-1">
                 <div
                   role="button"

@@ -7,18 +7,18 @@ import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 
 function Recipe() {
-  // 狀態管理
+
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  // 載入食譜列表
+  //Load recipe list
   useEffect(() => {
     fetchRecipes();
   }, []);
   const addNewRecipe = () => {
-    // 導向新增食譜頁面
+    
     navigate('/add-recipe');
   }
 
@@ -58,7 +58,6 @@ function Recipe() {
             </div>
 
             
-            {/* 載入中 */}
             {loading && (
               <div className="text-center py-12">
                 <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
@@ -66,14 +65,14 @@ function Recipe() {
               </div>
             )}
 
-            {/* 錯誤訊息 */}
+    
             {error && (
               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                 {error}
               </div>
             )}
 
-            {/* 食譜列表 */}
+            
             {!loading && !error && (
               <div>
                 {recipes.length === 0 ? (
@@ -87,7 +86,7 @@ function Recipe() {
                         key={recipe.id}
                         className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden"
                       >
-                        {/* 食譜卡片 */}
+           
                                     <div className="p-6">
                                       <h3 className="text-xl font-bold text-gray-800 mb-2">
                                       {recipe.title}
@@ -125,7 +124,7 @@ function Recipe() {
                                       </div>
                                     </div>
 
-                                    {/* 操作按鈕 */}
+                                   
                         <div className="bg-gray-50 px-6 py-3 flex gap-2">
                           <button onClick={() => navigate(`/recipe/${recipe.id}`)} className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm">
                             查看詳情

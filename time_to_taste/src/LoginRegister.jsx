@@ -11,7 +11,7 @@ const LoginPage = () => {
           Travel is the only purchase that enriches you in ways beyond material wealth
         </p>
         <img 
-          src="path/to/your/image.jpg" // 請替換成您圖片的路徑
+          src="path/to/your/image.jpg" 
           alt="A woman standing on a mountain top" 
           className="travel-image" 
         />

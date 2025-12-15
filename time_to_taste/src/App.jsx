@@ -11,7 +11,7 @@ function App() {
   const [gram, setGram] = useState(200);
   const [items, setItems] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
-  const [suggestions, setSuggestions] = useState([]); // 搜尋候選結果
+  const [suggestions, setSuggestions] = useState([]); 
 
 
   const totals = items.reduce(
@@ -28,7 +28,7 @@ function App() {
     { energyKcal: 0, protein: 0, fat: 0, carbs: 0, sugar: 0, sodium: 0, water: 0 }
   );
 
-  // 即時搜尋
+  // search ingredient suggestions
   useEffect(() => {
     const fetchSuggestions = async () => {
       if (ingredientName.length < 1) {
@@ -129,7 +129,6 @@ function App() {
                 value={gram}
                 onChange={(e) => {
                   const value = e.target.value;
-                  // 直接設定為數字，空字串會變成 0
                   setGram(value === '' ? 0 : Number(value));
                 }}
                 min="0"

@@ -46,7 +46,7 @@ function AiChat() {
                         padding: '10px',
                         fontSize: '16px',
                     }}
-                    placeholder="今天吃甚麼呢？"
+                    placeholder="今天吃甚麼呢？想減肥？增肌？小光都可以幫助你"
                 />
 
                 <div className="flex justify-end mt-2">
