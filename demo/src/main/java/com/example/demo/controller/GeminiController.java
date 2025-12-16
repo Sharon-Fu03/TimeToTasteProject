@@ -14,7 +14,7 @@ import com.example.demo.service.GoogleGenaiService;
 
 @RestController
 @RequestMapping("/api/gemini")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173", "http://localhost", "http://localhost:80"}, allowCredentials = "true")
 public class GeminiController {
 
     private final GoogleGenaiService googleGenaiService;
