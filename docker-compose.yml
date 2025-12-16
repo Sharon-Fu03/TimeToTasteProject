@@ -1,14 +1,67 @@
 version: '3.8'
 
 services:
-  app:
-    image: timetotaste
-    container_name: timetotaste-app
+  # MySQL 資料庫
+  mysql:
+    image: mysql:8.0
+    container_name: timetotaste-mysql
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/timetotaste?serverTimezone=Asia/Taipei&characterEncoding=utf-8
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 24601
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-yourpassword}
+      MYSQL_DATABASE: timetotaste
+      MYSQL_USER: ${MYSQL_USER:-dbuser}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-dbpassword}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - timetotaste-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot 後端
+  backend:
+    build:
+      context: ./demo
+      dockerfile: Dockerfile
+    container_name: timetotaste-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/timetotaste?serverTimezone=Asia/Taipei&characterEncoding=utf-8
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-dbuser}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-dbpassword}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-your-api-key}
+      SPRING_JPA_SHOW_SQL: "false"
     ports:
       - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - timetotaste-network
+    restart: unless-stopped
+
+  # React 前端
+  frontend:
+    build:
+      context: ./time_to_taste
+      dockerfile: Dockerfile
+    container_name: timetotaste-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - timetotaste-network
+    restart: unless-stopped
+
+networks:
+  timetotaste-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
 
 
