@@ -1,0 +1,45 @@
+# Java / Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+*.ear
+.mvn/timing.properties
+
+# Spring Boot
+spring.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Node / React
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+build/
+dist/
+.cache/
+
+# Environment Variables
+.env
+.env.local
+.env.production
+
+# Database
+*.db
+*.sqlite
+
+# Logs
+logs/
+*.log
+
+# Docker
+.dockerignore
+
+# Sensitive files
+openai.properties
