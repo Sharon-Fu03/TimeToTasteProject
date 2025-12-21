@@ -23,3 +23,35 @@
 串接 Gemini API，協助產生飲食建議與相關內容（持續擴充中）
 
 <img width="416" height="592" alt="image" src="https://github.com/user-attachments/assets/5501330b-02a2-4688-848f-91d7b4742dfe" />
+
+
+🛠️ 技術架構
+Frontend
+
+React
+
+Vite
+
+Tailwind CSS
+
+Backend
+
+Java Spring Boot
+
+RESTful API
+
+Database
+
+MySQL
+
+食材營養資料表（food_nutrition）
+
+Other
+
+Docker（容器化部署）
+
+Azure App Service
+
+Git / GitHub 版本控制
+
+目前仍在持續開發中
